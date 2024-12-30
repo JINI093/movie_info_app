@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_info_app/domain/model/movie.dart';
+import '../../domain/model/model.dart';
 import 'movie_card.dart';
 
-class MovieSection extends StatelessWidget {
+class MovieListSection extends StatelessWidget {
   final String title;
-  final List<String> movies;
+  final List<Movie> movies;
+  final Function(Movie) onMovieTap;
 
-  const MovieSection({
+  const MovieListSection({
     super.key,
     required this.title,
     required this.movies,
+    required this.onMovieTap,
   });
 
   @override
@@ -29,21 +31,16 @@ class MovieSection extends StatelessWidget {
         ),
         SizedBox(
           height: 200,
-          child: ListView(
+          child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            children: movies
-                .map((movie) => MovieCard(
-                      movie: Movie(
-                        title: movie,
-                        id: 0,
-                        overview: '',
-                        voteAverage: 0,
-                        releaseDate: DateTime.now(),
-                        popularity: 0,
-                      ),
-                      onTap: () {},
-                    ))
-                .toList(),
+            itemCount: movies.length,
+            itemBuilder: (context, index) {
+              final movie = movies[index];
+              return MovieCard(
+                movie: movie,
+                onTap: () => onMovieTap(movie),
+              );
+            },
           ),
         ),
       ],
