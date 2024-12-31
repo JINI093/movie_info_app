@@ -6,12 +6,14 @@ class MovieListSection extends StatelessWidget {
   final String title;
   final List<Movie> movies;
   final Function(Movie) onMovieTap;
+  final bool showRanking;
 
   const MovieListSection({
     super.key,
     required this.title,
     required this.movies,
     required this.onMovieTap,
+    this.showRanking = false,
   });
 
   @override
@@ -39,6 +41,7 @@ class MovieListSection extends StatelessWidget {
               return MovieCard(
                 movie: movie,
                 onTap: () => onMovieTap(movie),
+                ranking: showRanking ? index + 1 : null,
               );
             },
           ),

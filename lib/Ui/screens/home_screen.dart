@@ -32,6 +32,16 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const Padding(
+              padding: EdgeInsets.only(left: 16.0, top: 50.0),
+              child: Text(
+                '가장 인기있는',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
             if (state.nowPlayingMovies?.isNotEmpty ?? false) ...[
               Stack(
                 children: [
@@ -75,7 +85,7 @@ class HomeScreen extends StatelessWidget {
             ],
             if (state.popularMovies != null) ...[
               MovieListSection(
-                title: '가장 인기있는',
+                title: '현재 상영중',
                 movies: state.popularMovies!,
                 onMovieTap: (movie) {
                   Navigator.push(
@@ -89,8 +99,9 @@ class HomeScreen extends StatelessWidget {
             ],
             if (state.nowPlayingMovies != null) ...[
               MovieListSection(
-                title: '현재 상영중',
+                title: '인기순',
                 movies: state.nowPlayingMovies!,
+                showRanking: true,
                 onMovieTap: (movie) {
                   Navigator.push(
                     context,
@@ -103,7 +114,7 @@ class HomeScreen extends StatelessWidget {
             ],
             if (state.topRatedMovies != null) ...[
               MovieListSection(
-                title: '평점이 높은 영화',
+                title: '평점 높은순',
                 movies: state.topRatedMovies!,
                 onMovieTap: (movie) {
                   Navigator.push(
