@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_info_app/Ui/view_model/detail/detail_view_model.dart';
-import 'package:flutter_movie_info_app/Ui/view_model/home/home_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_movie_info_app/ui/view_model/home/home_view_model.dart';
+import 'package:flutter_movie_info_app/ui/view_model/detail/detail_view_model.dart';
 import 'core/config/app_config.dart';
 import 'core/di/injection.dart';
 import 'ui/screens/home_screen.dart';
@@ -25,10 +25,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
+        ChangeNotifierProvider<HomeViewModel>(
           create: (_) => getIt<HomeViewModel>()..fetchInitialMovies(),
         ),
-        ChangeNotifierProvider(
+        ChangeNotifierProvider<DetailViewModel>(
           create: (_) => getIt<DetailViewModel>(),
         ),
       ],

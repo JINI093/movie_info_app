@@ -18,23 +18,23 @@ class MovieRepositoryImpl implements MovieRepository {
     if (await networkInfo.isConnected) {
       try {
         final result = await dataSource.fetchNowPlayingMovies();
-        if (result is Success) {
-          return Success(
-            result.results
-                .map((movieDto) => Movie(
-                      id: movieDto.id,
-                      title: movieDto.title,
-                      posterPath: movieDto.posterPath,
-                      backdropPath: movieDto.backdropPath,
-                      overview: movieDto.overview,
-                      voteAverage: movieDto.voteAverage,
-                      releaseDate: DateTime.parse(movieDto.releaseDate),
-                      popularity: movieDto.popularity,
-                    ))
-                .toList(),
-          );
-        }
-        return Error(ServerFailure('Failed to fetch movies'));
+        return switch (result) {
+          Success(data: final dto) => Success(
+              dto.results
+                  .map((movieDto) => Movie(
+                        id: movieDto.id,
+                        title: movieDto.title,
+                        posterPath: movieDto.posterPath,
+                        backdropPath: movieDto.backdropPath,
+                        overview: movieDto.overview,
+                        voteAverage: movieDto.voteAverage,
+                        releaseDate: DateTime.parse(movieDto.releaseDate),
+                        popularity: movieDto.popularity,
+                      ))
+                  .toList(),
+            ),
+          Error(failure: final failure) => Error(failure),
+        };
       } catch (e) {
         return Error(ServerFailure(e.toString()));
       }
@@ -48,21 +48,23 @@ class MovieRepositoryImpl implements MovieRepository {
     if (await networkInfo.isConnected) {
       try {
         final result = await dataSource.fetchPopularMovies();
-        if (result is Success) {
-          return Success(result.data.results
-              .map((movieDto) => Movie(
-                    id: movieDto.id,
-                    title: movieDto.title,
-                    posterPath: movieDto.posterPath,
-                    backdropPath: movieDto.backdropPath,
-                    overview: movieDto.overview,
-                    voteAverage: movieDto.voteAverage,
-                    releaseDate: DateTime.parse(movieDto.releaseDate),
-                    popularity: movieDto.popularity,
-                  ))
-              .toList());
-        }
-        return Error(ServerFailure('Failed to fetch movies'));
+        return switch (result) {
+          Success(data: final dto) => Success(
+              dto.results
+                  .map((movieDto) => Movie(
+                        id: movieDto.id,
+                        title: movieDto.title,
+                        posterPath: movieDto.posterPath,
+                        backdropPath: movieDto.backdropPath,
+                        overview: movieDto.overview,
+                        voteAverage: movieDto.voteAverage,
+                        releaseDate: DateTime.parse(movieDto.releaseDate),
+                        popularity: movieDto.popularity,
+                      ))
+                  .toList(),
+            ),
+          Error(failure: final failure) => Error(failure),
+        };
       } catch (e) {
         return Error(ServerFailure(e.toString()));
       }
@@ -73,42 +75,62 @@ class MovieRepositoryImpl implements MovieRepository {
 
   @override
   Future<Result<List<Movie>>> fetchTopRatedMovies() async {
-    final result = await dataSource.fetchTopRatedMovies();
-    if (result is Success) {
-      return Success(result.data.results
-          .map((dto) => Movie(
-                id: dto.id,
-                title: dto.title,
-                posterPath: dto.posterPath,
-                backdropPath: dto.backdropPath,
-                overview: dto.overview,
-                voteAverage: dto.voteAverage,
-                releaseDate: DateTime.parse(dto.releaseDate),
-                popularity: dto.popularity,
-              ))
-          .toList());
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await dataSource.fetchTopRatedMovies();
+        return switch (result) {
+          Success(data: final dto) => Success(
+              dto.results
+                  .map((movieDto) => Movie(
+                        id: movieDto.id,
+                        title: movieDto.title,
+                        posterPath: movieDto.posterPath,
+                        backdropPath: movieDto.backdropPath,
+                        overview: movieDto.overview,
+                        voteAverage: movieDto.voteAverage,
+                        releaseDate: DateTime.parse(movieDto.releaseDate),
+                        popularity: movieDto.popularity,
+                      ))
+                  .toList(),
+            ),
+          Error(failure: final failure) => Error(failure),
+        };
+      } catch (e) {
+        return Error(ServerFailure(e.toString()));
+      }
+    } else {
+      return Error(NetworkFailure('인터넷 연결을 확인해주세요.'));
     }
-    return Error(ServerFailure('Failed to fetch movies'));
   }
 
   @override
   Future<Result<List<Movie>>> fetchUpcomingMovies() async {
-    final result = await dataSource.fetchUpcomingMovies();
-    if (result is Success) {
-      return Success(result.data.results
-          .map((dto) => Movie(
-                id: dto.id,
-                title: dto.title,
-                posterPath: dto.posterPath,
-                backdropPath: dto.backdropPath,
-                overview: dto.overview,
-                voteAverage: dto.voteAverage,
-                releaseDate: DateTime.parse(dto.releaseDate),
-                popularity: dto.popularity,
-              ))
-          .toList());
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await dataSource.fetchUpcomingMovies();
+        return switch (result) {
+          Success(data: final dto) => Success(
+              dto.results
+                  .map((movieDto) => Movie(
+                        id: movieDto.id,
+                        title: movieDto.title,
+                        posterPath: movieDto.posterPath,
+                        backdropPath: movieDto.backdropPath,
+                        overview: movieDto.overview,
+                        voteAverage: movieDto.voteAverage,
+                        releaseDate: DateTime.parse(movieDto.releaseDate),
+                        popularity: movieDto.popularity,
+                      ))
+                  .toList(),
+            ),
+          Error(failure: final failure) => Error(failure),
+        };
+      } catch (e) {
+        return Error(ServerFailure(e.toString()));
+      }
+    } else {
+      return Error(NetworkFailure('인터넷 연결을 확인해주세요.'));
     }
-    return Error(ServerFailure('Failed to fetch movies'));
   }
 
   @override
