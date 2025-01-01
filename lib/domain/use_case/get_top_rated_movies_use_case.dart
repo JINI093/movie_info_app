@@ -1,3 +1,5 @@
+import 'package:flutter_movie_info_app/core/util/result.dart';
+
 import '../domain.dart';
 
 class GetTopRatedMoviesUseCase {
@@ -5,7 +7,7 @@ class GetTopRatedMoviesUseCase {
 
   GetTopRatedMoviesUseCase(this._repository);
 
-  Future<List<Movie>?> execute() async {
-    return _repository.fetchTopRatedMovies();
+  Future<Result<List<Movie>>> execute() async {
+    return await _repository.fetchTopRatedMovies();
   }
 }

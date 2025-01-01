@@ -1,3 +1,5 @@
+import 'package:flutter_movie_info_app/core/util/result.dart';
+
 import '../domain.dart';
 
 class GetMovieDetailUseCase {
@@ -5,7 +7,7 @@ class GetMovieDetailUseCase {
 
   GetMovieDetailUseCase(this._repository);
 
-  Future<MovieDetail?> execute(int id) async {
-    return _repository.fetchMovieDetail(id);
+  Future<Result<MovieDetail>> execute(int id) async {
+    return await _repository.fetchMovieDetail(id);
   }
 }

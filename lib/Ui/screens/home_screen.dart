@@ -7,8 +7,6 @@ import 'detail_screen.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  get movieDetail => null;
-
   @override
   Widget build(BuildContext context) {
     final state = context.watch<HomeViewModel>().state;
@@ -95,7 +93,6 @@ class HomeScreen extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (context) => DetailScreen(
                         movieId: movie.id,
-                        movieDetail: movieDetail,
                         movie: movie,
                       ),
                     ),
@@ -114,7 +111,6 @@ class HomeScreen extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (context) => DetailScreen(
                         movieId: movie.id,
-                        movieDetail: movieDetail,
                         movie: movie,
                       ),
                     ),
@@ -132,7 +128,6 @@ class HomeScreen extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (context) => DetailScreen(
                         movieId: movie.id,
-                        movieDetail: movieDetail,
                         movie: movie,
                       ),
                     ),
@@ -150,7 +145,6 @@ class HomeScreen extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (context) => DetailScreen(
                         movieId: movie.id,
-                        movieDetail: movieDetail,
                         movie: movie,
                       ),
                     ),

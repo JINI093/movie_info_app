@@ -1,96 +1,123 @@
 import 'dart:convert';
+import 'package:flutter_movie_info_app/core/constants/api_constants.dart';
+import 'package:flutter_movie_info_app/core/error/failures.dart';
 import 'package:http/http.dart' as http;
 import 'movie_data_source.dart';
 import '../dto/dto.dart';
-import 'package:flutter/foundation.dart';
+import '../../core/util/result.dart';
 
 class TmdbMovieDataSource implements MovieDataSource {
-  final String baseUrl = 'https://api.themoviedb.org/3';
+  final http.Client client;
   final String apiKey;
 
-  TmdbMovieDataSource({required this.apiKey});
+  TmdbMovieDataSource({
+    required this.apiKey,
+    required this.client,
+  });
 
   @override
-  Future<MovieResponseDto?> fetchNowPlayingMovies() async {
+  Future<Result<MovieResponseDto>> fetchNowPlayingMovies() async {
     try {
-      final response = await http.get(
-        Uri.parse('$baseUrl/movie/now_playing?api_key=$apiKey&language=ko-KR'),
+      final response = await client.get(
+        Uri.parse(
+            '${ApiConstants.baseUrl}/movie/now_playing?api_key=$apiKey&language=ko-KR'),
       );
 
-      debugPrint('Response status: ${response.statusCode}');
-      debugPrint('Response body: ${response.body}');
-
       if (response.statusCode == 200) {
-        return MovieResponseDto.fromJson(jsonDecode(response.body));
+        return Success(MovieResponseDto.fromJson(jsonDecode(response.body)));
       }
-      throw Exception('Failed to load movies: ${response.statusCode}');
+      return Error(
+          ServerFailure('Failed to fetch movies: ${response.statusCode}'));
     } catch (e) {
-      debugPrint('Error fetching movies: $e');
-      return null;
+      return Error(ServerFailure(e.toString()));
     }
   }
 
   @override
-  Future<MovieResponseDto?> fetchPopularMovies() async {
+  Future<Result<MovieResponseDto>> fetchPopularMovies() async {
     try {
-      final response = await http.get(
-        Uri.parse('$baseUrl/movie/popular?api_key=$apiKey&language=ko-KR'),
+      final response = await client.get(
+        Uri.parse(
+            '${ApiConstants.baseUrl}/movie/popular?api_key=$apiKey&language=ko-KR'),
       );
 
       if (response.statusCode == 200) {
-        return MovieResponseDto.fromJson(jsonDecode(response.body));
+        return Success(MovieResponseDto.fromJson(jsonDecode(response.body)));
       }
-      return null;
+
+      return Error(
+        ServerFailure('Failed to fetch movies: ${response.statusCode}'),
+      );
     } catch (e) {
-      return null;
+      return Error(
+        ServerFailure(e.toString()),
+      );
     }
   }
 
   @override
-  Future<MovieResponseDto?> fetchTopRatedMovies() async {
+  Future<Result<MovieResponseDto>> fetchTopRatedMovies() async {
     try {
-      final response = await http.get(
-        Uri.parse('$baseUrl/movie/top_rated?api_key=$apiKey&language=ko-KR'),
+      final response = await client.get(
+        Uri.parse(
+            '${ApiConstants.baseUrl}/movie/top_rated?api_key=$apiKey&language=ko-KR'),
       );
 
       if (response.statusCode == 200) {
-        return MovieResponseDto.fromJson(jsonDecode(response.body));
+        return Success(MovieResponseDto.fromJson(jsonDecode(response.body)));
       }
-      return null;
+
+      return Error(
+        ServerFailure('Failed to fetch movies: ${response.statusCode}'),
+      );
     } catch (e) {
-      return null;
+      return Error(
+        ServerFailure(e.toString()),
+      );
     }
   }
 
   @override
-  Future<MovieResponseDto?> fetchUpcomingMovies() async {
+  Future<Result<MovieResponseDto>> fetchUpcomingMovies() async {
     try {
-      final response = await http.get(
-        Uri.parse('$baseUrl/movie/upcoming?api_key=$apiKey&language=ko-KR'),
+      final response = await client.get(
+        Uri.parse(
+            '${ApiConstants.baseUrl}/movie/upcoming?api_key=$apiKey&language=ko-KR'),
       );
 
       if (response.statusCode == 200) {
-        return MovieResponseDto.fromJson(jsonDecode(response.body));
+        return Success(MovieResponseDto.fromJson(jsonDecode(response.body)));
       }
-      return null;
+
+      return Error(
+        ServerFailure('Failed to fetch movies: ${response.statusCode}'),
+      );
     } catch (e) {
-      return null;
+      return Error(
+        ServerFailure(e.toString()),
+      );
     }
   }
 
   @override
-  Future<MovieDetailDto?> fetchMovieDetail(int id) async {
+  Future<Result<MovieDetailDto>> fetchMovieDetail(int id) async {
     try {
-      final response = await http.get(
-        Uri.parse('$baseUrl/movie/$id?api_key=$apiKey&language=ko-KR'),
+      final response = await client.get(
+        Uri.parse(
+            '${ApiConstants.baseUrl}/movie/$id?api_key=$apiKey&language=ko-KR'),
       );
 
       if (response.statusCode == 200) {
-        return MovieDetailDto.fromJson(jsonDecode(response.body));
+        return Success(MovieDetailDto.fromJson(jsonDecode(response.body)));
       }
-      return null;
+
+      return Error(
+        ServerFailure('Failed to fetch movie detail: ${response.statusCode}'),
+      );
     } catch (e) {
-      return null;
+      return Error(
+        ServerFailure(e.toString()),
+      );
     }
   }
 }
