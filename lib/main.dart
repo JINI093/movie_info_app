@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_movie_info_app/data/data.dart';
 import 'package:flutter_movie_info_app/domain/use_case/use_case.dart';
 import 'package:flutter_movie_info_app/ui/view_model/view_model.dart';
 import 'ui/screens/home_screen.dart';
 
-Future<void> main() async {
-  try {
-    WidgetsFlutterBinding.ensureInitialized();
-    await dotenv.load(fileName: ".env");
-  } catch (e) {
-    debugPrint('Error loading .env file: $e');
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  const apiKey = String.fromEnvironment('TMDB_API_KEY', defaultValue: '');
+
+  debugPrint('API Key: $apiKey');
+
+  if (apiKey.isEmpty) {
+    throw Exception(
+        'API key not found. Make sure to run with --dart-define-from-file=.env');
   }
 
-  final movieDataSource = TmdbMovieDataSource();
+  final movieDataSource = TmdbMovieDataSource(apiKey: apiKey);
   final movieRepository = MovieRepositoryImpl(movieDataSource);
 
   runApp(

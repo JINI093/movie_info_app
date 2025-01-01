@@ -27,6 +27,10 @@ class HomeViewModel extends ChangeNotifier {
 
     try {
       final nowPlayingMovies = await _getNowPlayingMoviesUseCase.execute();
+      if (nowPlayingMovies == null) {
+        throw Exception('Failed to load now playing movies');
+      }
+
       final popularMovies = await _getPopularMoviesUseCase.execute();
       final topRatedMovies = await _getTopRatedMoviesUseCase.execute();
       final upcomingMovies = await _getUpcomingMoviesUseCase.execute();
@@ -39,6 +43,7 @@ class HomeViewModel extends ChangeNotifier {
         isLoading: false,
       );
     } catch (e) {
+      debugPrint('Error in fetchInitialMovies: $e');
       _state = _state.copyWith(
         error: e.toString(),
         isLoading: false,
