@@ -45,3 +45,6 @@ app.*.map.json
 # dotenv environment variables file
 .env
 .env.*
+
+# API Keys
+.env

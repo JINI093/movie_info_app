@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'movie_data_source.dart';
 import '../dto/dto.dart';
 import '../../core/util/result.dart';
+import 'package:flutter/foundation.dart';
 
 class TmdbMovieDataSource implements MovieDataSource {
   final http.Client client;
@@ -13,15 +14,20 @@ class TmdbMovieDataSource implements MovieDataSource {
   TmdbMovieDataSource({
     required this.apiKey,
     required this.client,
-  });
+  }) {
+    debugPrint('API Key in DataSource: $apiKey');
+  }
 
   @override
   Future<Result<MovieResponseDto>> fetchNowPlayingMovies() async {
     try {
-      final response = await client.get(
-        Uri.parse(
-            '${ApiConstants.baseUrl}/movie/now_playing?api_key=$apiKey&language=ko-KR'),
-      );
+      final url = Uri.parse(
+          '${ApiConstants.baseUrl}/movie/now_playing?api_key=$apiKey&language=ko-KR');
+      debugPrint('Request URL: ${url.toString()}');
+
+      final response = await client.get(url);
+      debugPrint('Response Status Code: ${response.statusCode}');
+      debugPrint('Response Body: ${response.body}');
 
       if (response.statusCode == 200) {
         return Success(MovieResponseDto.fromJson(jsonDecode(response.body)));
@@ -29,6 +35,7 @@ class TmdbMovieDataSource implements MovieDataSource {
       return Error(
           ServerFailure('Failed to fetch movies: ${response.statusCode}'));
     } catch (e) {
+      debugPrint('Error in fetchNowPlayingMovies: $e');
       return Error(ServerFailure(e.toString()));
     }
   }
