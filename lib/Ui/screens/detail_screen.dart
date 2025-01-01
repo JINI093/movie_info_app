@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_info_app/data/dto/movie_detail_dto.dart';
+import 'package:flutter_movie_info_app/domain/model/movie.dart';
 import 'package:provider/provider.dart';
 import '../view_model/view_model.dart';
 import 'package:intl/intl.dart';
 
 class DetailScreen extends StatefulWidget {
   final int movieId;
+  final MovieDetailDto movieDetail;
 
   const DetailScreen({
     super.key,
     required this.movieId,
+    required this.movieDetail,
+    required Movie movie,
   });
 
   @override
@@ -59,11 +64,14 @@ class _DetailScreenState extends State<DetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AspectRatio(
-              aspectRatio: 16 / 9,
-              child: Image.network(
-                movieDetail.backdropUrl,
-                fit: BoxFit.cover,
+            Hero(
+              tag: 'poster_${widget.movieDetail.id}',
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Image.network(
+                  movieDetail.backdropUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             Padding(

@@ -19,14 +19,17 @@ class MovieCard extends StatelessWidget {
       onTap: onTap,
       child: Stack(
         children: [
-          Container(
-            width: 130,
-            margin: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              image: DecorationImage(
-                image: NetworkImage(movie.posterUrl),
-                fit: BoxFit.cover,
+          Hero(
+            tag: 'poster_${movie.id}',
+            child: Container(
+              width: 130,
+              margin: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                image: DecorationImage(
+                  image: NetworkImage(movie.posterUrl),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
