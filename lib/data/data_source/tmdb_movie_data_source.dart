@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'movie_data_source.dart';
 import '../dto/dto.dart';
+import 'package:flutter/foundation.dart';
 
 class TmdbMovieDataSource implements MovieDataSource {
   final String baseUrl = 'https://api.themoviedb.org/3';
-  final String? apiKey = dotenv.env['TMDB_API_KEY'];
+  final String apiKey;
+
+  TmdbMovieDataSource({required this.apiKey});
 
   @override
   Future<MovieResponseDto?> fetchNowPlayingMovies() async {
@@ -15,11 +17,15 @@ class TmdbMovieDataSource implements MovieDataSource {
         Uri.parse('$baseUrl/movie/now_playing?api_key=$apiKey&language=ko-KR'),
       );
 
+      debugPrint('Response status: ${response.statusCode}');
+      debugPrint('Response body: ${response.body}');
+
       if (response.statusCode == 200) {
         return MovieResponseDto.fromJson(jsonDecode(response.body));
       }
-      return null;
+      throw Exception('Failed to load movies: ${response.statusCode}');
     } catch (e) {
+      debugPrint('Error fetching movies: $e');
       return null;
     }
   }
