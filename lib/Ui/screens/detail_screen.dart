@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_info_app/data/dto/movie_detail_dto.dart';
 import 'package:flutter_movie_info_app/domain/model/movie.dart';
 import 'package:provider/provider.dart';
 import '../view_model/view_model.dart';

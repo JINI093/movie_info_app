@@ -1,7 +1,11 @@
+import '../error/failures.dart';
+
 sealed class Result<T> {
   const Result();
 
   get data => null;
+
+  get results => null;
 }
 
 class Success<T> extends Result<T> {
@@ -10,10 +14,6 @@ class Success<T> extends Result<T> {
 }
 
 class Error<T> extends Result<T> {
-  final String message;
-  final dynamic error;
-  const Error({
-    required this.message,
-    this.error,
-  });
+  final Failure failure;
+  const Error(this.failure);
 }

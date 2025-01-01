@@ -1,13 +1,14 @@
+import '../../core/util/result.dart';
 import '../model/model.dart';
 
 abstract interface class MovieRepository {
-  Future<List<Movie>?> fetchNowPlayingMovies();
+  Future<Result<List<Movie>>> fetchNowPlayingMovies();
 
-  Future<List<Movie>?> fetchPopularMovies();
+  Future<Result<List<Movie>>> fetchPopularMovies();
 
-  Future<List<Movie>?> fetchTopRatedMovies();
+  Future<Result<List<Movie>>> fetchTopRatedMovies();
 
-  Future<List<Movie>?> fetchUpcomingMovies();
+  Future<Result<List<Movie>>> fetchUpcomingMovies();
 
-  Future<MovieDetail?> fetchMovieDetail(int id);
+  Future<Result<MovieDetail>> fetchMovieDetail(int id);
 }
