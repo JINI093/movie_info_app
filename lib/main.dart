@@ -19,17 +19,21 @@ void main() {
 
   final movieDataSource = TmdbMovieDataSource(apiKey: apiKey);
   final movieRepository = MovieRepositoryImpl(movieDataSource);
+  final getNowPlayingMoviesUseCase =
+      GetNowPlayingMoviesUseCase(movieRepository);
+  final getPopularMoviesUseCase = GetPopularMoviesUseCase(movieRepository);
+  final getTopRatedMoviesUseCase = GetTopRatedMoviesUseCase(movieRepository);
+  final getUpcomingMoviesUseCase = GetUpcomingMoviesUseCase(movieRepository);
 
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (context) => HomeViewModel(
-            getNowPlayingMoviesUseCase:
-                GetNowPlayingMoviesUseCase(movieRepository),
-            getPopularMoviesUseCase: GetPopularMoviesUseCase(movieRepository),
-            getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase(movieRepository),
-            getUpcomingMoviesUseCase: GetUpcomingMoviesUseCase(movieRepository),
+            getNowPlayingMoviesUseCase: getNowPlayingMoviesUseCase,
+            getPopularMoviesUseCase: getPopularMoviesUseCase,
+            getTopRatedMoviesUseCase: getTopRatedMoviesUseCase,
+            getUpcomingMoviesUseCase: getUpcomingMoviesUseCase,
           )..fetchInitialMovies(),
         ),
         ChangeNotifierProvider(

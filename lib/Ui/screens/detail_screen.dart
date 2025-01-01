@@ -7,13 +7,12 @@ import 'package:intl/intl.dart';
 
 class DetailScreen extends StatefulWidget {
   final int movieId;
-  final MovieDetailDto movieDetail;
+  final Movie movie;
 
   const DetailScreen({
     super.key,
     required this.movieId,
-    required this.movieDetail,
-    required Movie movie,
+    required this.movie,
   });
 
   @override
@@ -65,7 +64,7 @@ class _DetailScreenState extends State<DetailScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Hero(
-              tag: 'poster_${widget.movieDetail.id}',
+              tag: 'poster_${widget.movie.id}',
               child: AspectRatio(
                 aspectRatio: 16 / 9,
                 child: Image.network(
